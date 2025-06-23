@@ -35,11 +35,24 @@ Utilisez 'url-shortener [command] --help' pour plus d'informations sur une comma
 
 // rootCmd représente la commande de base lorsque l'on appelle l'application sans sous-commande.
 // C'est le point d'entrée principal pour Cobra.
+var rootCmd = &cobra.Command{
+	Use:   "url-shortener",
+	Short: "Un service de raccourcissement d'URLs avec API REST et CLI",
+	Long: `
+'url-shortener' est une application complète pour gérer des URLs courtes.
+Elle inclut un serveur API pour le raccourcissement et la redirection,
+ainsi qu'une interface en ligne de commande pour l'administration.
+
+Utilisez 'url-shortener [command] --help' pour plus d'informations sur une commande.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Utilisez --help pour voir les commandes disponibles.")
+	},
+}
 
 // Execute est le point d'entrée principal pour l'application Cobra.
 // Il est appelé depuis 'main.go'.
 func Execute() {
-	if err := RootCmd.Execute(); err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Erreur lors de l'exécution de la commande: %v\n", err)
 		os.Exit(1)
 	}
@@ -50,6 +63,7 @@ func Execute() {
 // et ajouter toutes les sous-commandes.
 func init() {
 	// TODO Initialiser la configuration globale avec OnInitialize
+	cobra.OnInitialize(initConfig)
 
 	// IMPORTANT : Ici, nous n'appelons PAS RootCmd.AddCommand() directement
 	// pour les commandes 'server', 'create', 'stats', 'migrate'.

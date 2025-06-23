@@ -6,6 +6,8 @@ import (
 	_ "github.com/axellelanca/urlshortener/cmd/server" // Importe le package 'server' pour que ses init() soient exécutés
 )
 
+// Importe le package 'server' pour que ses init() soient exécutés
+
 func main() {
 	// TODO Exécute la commande racine de Cobra.
 	cmd.Execute()
