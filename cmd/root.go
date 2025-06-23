@@ -14,6 +14,16 @@ import (
 var Cfg *config.Config
 
 // TODO : Créer la RootCmd avec Cobra
+var RootCmd = &cobra.Command{
+	Use:   "url-shortener",
+	Short: "Un service de raccourcissement d'URLs avec API REST et CLI",
+	Long: `url-shortener est une application complète pour gérer des URLs courtes.
+Elle inclut un serveur API pour le raccourcissement et la redirection,
+ainsi qu'une interface en ligne de commande pour l'administration.
+
+Utilisez 'url-shortener [command] --help' pour plus d'informations sur une commande.`,
+}
+
 // Utiliser ces descriptions :
 // "Un service de raccourcissement d'URLs avec API REST et CLI"
 // `
