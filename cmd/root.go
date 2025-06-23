@@ -11,7 +11,6 @@ import (
 
 var Cfg *config.Config
 
-// RootCmd représente la commande racine de l'application.
 var RootCmd = &cobra.Command{
 	Use:   "url-shortener",
 	Short: "Un service de raccourcissement d'URLs avec API REST et CLI",
@@ -23,7 +22,6 @@ ainsi qu'une interface en ligne de commande pour l'administration.
 Utilisez 'url-shortener [command] --help' pour plus d'informations sur une commande.`,
 }
 
-// Execute est le point d'entrée principal pour l'application Cobra.
 func Execute() {
 	if err := RootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Erreur lors de l'exécution de la commande: %v\n", err)
@@ -33,10 +31,8 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	// Les sous-commandes s'enregistrent elles-mêmes via leur init()
 }
 
-// initConfig charge la configuration de l'application.
 func initConfig() {
 	var err error
 	Cfg, err = config.LoadConfig()
