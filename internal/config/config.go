@@ -1,43 +1,27 @@
-package config
+package cmd
 
 import (
-	"fmt"
-	"log" // Pour logger les informations ou erreurs de chargement de config
+	"log"
 
-	"github.com/spf13/viper" // La bibliothèque pour la gestion de configuration
+	"github.com/axellelanca/urlshortener/config"
+	"github.com/spf13/cobra"
 )
 
-// TODO Créer Config qui est la structure principale qui mappe l'intégralité de la configuration de l'application.
-// Les tags `mapstructure` sont utilisés par Viper pour mapper les clés du fichier de config
-// (ou des variables d'environnement) aux champs de la structure Go.
-type Config struct {
-}
+var (
+	RootCmd = &cobra.Command{
+		Use:   "url-shortener",
+		Short: "Service de raccourcissement d'URL avec suivi de clics.",
+	}
+	Cfg *config.Config // ← Variable globale à utiliser dans les autres fichiers
+)
 
-// LoadConfig charge la configuration de l'application en utilisant Viper.
-// Elle recherche un fichier 'config.yaml' dans le dossier 'configs/'.
-// Elle définit également des valeurs par défaut si le fichier de config est absent ou incomplet.
-func LoadConfig() (*Config, error) {
-	// TODO Spécifie le chemin où Viper doit chercher les fichiers de config.
-	// on cherche dans le dossier 'configs' relatif au répertoire d'exécution.
-
-	// TODO Spécifie le nom du fichier de config (sans l'extension).
-
-	// TODO Spécifie le type de fichier de config.
-	viper.SetConfigType("yaml")
-
-	// TODO : Définir les valeurs par défaut pour toutes les options de configuration.
-	// Ces valeurs seront utilisées si les clés correspondantes ne sont pas trouvées dans le fichier de config
-	// ou si le fichier n'existe pas.
-	// server.port, server.base_url etc.
-
-	// TODO : Lire le fichier de configuration.
-
-	// TODO 4: Démapper (unmarshal) la configuration lue (ou les valeurs par défaut) dans la structure Config.
-	var cfg Config
-
-	// Log  pour vérifier la config chargée
-	log.Printf("Configuration loaded: Server Port=%d, DB Name=%s, Analytics Buffer=%d, Monitor Interval=%dmin",
-		cfg.Server.Port, cfg.Database.Name, cfg.Analytics.BufferSize, cfg.Monitor.IntervalMinutes)
-
-	return &cfg, nil // Retourne la configuration chargée
+func Execute() {
+	var err error
+	Cfg, err = config.LoadConfig()
+	if err != nil {
+		log.Fatalf("FATAL: Impossible de charger la configuration: %v", err)
+	}
+	if err := RootCmd.Execute(); err != nil {
+		log.Fatalf("FATAL: Erreur lors de l'exécution de la commande: %v", err)
+	}
 }
