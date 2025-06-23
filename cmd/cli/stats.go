@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 	"gorm.io/gorm"
 
-	"gorm.io/driver/sqlite" // Driver SQLite pour GORM
+	"github.com/glebarez/sqlite" // Driver SQLite pour GORM
 )
 
 // variable shortCodeFlag qui stockera la valeur du flag --code
